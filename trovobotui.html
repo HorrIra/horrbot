@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trovo Chat Bot</title>
+  <style>
+    body {
+      background-color: #222222;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 25px;
+    }
+
+    /* Стили CSS */
+    #container {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    #chat-log {
+      width: 45%;
+      background-color: #333333;
+      padding: 10px;
+      overflow-y: scroll;
+      height: 50vh;
+      margin-bottom: 10px;
+    }
+
+    #message-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    #send-button {
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    #broadcast-form {
+      width: 45%;
+      background-color: #4c4c4c;
+      padding: 10px;
+    }
+
+    #broadcast-title,
+    #broadcast-category {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+
+    #broadcast-button {
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .test-button {
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    #chat-form {
+      width: 45%;
+      background-color: #282828;
+      padding: 10px;
+    }
+
+    #chat-form h2 {
+      color: #ffffff;
+      margin-top: 0;
+    }
+
+    #chat-form form {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    #chat-form input[type="text"] {
+      flex: 1;
+      padding: 10px;
+    }
+
+    #chat-form button {
+      padding: 10px;
+      margin-left: 10px;
+    }
+
+    #broadcast-form label {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="broadcast-form">
+      <h2 style="text-align: center;">HorrBot</h2>
+      <form>
+        <label for="broadcast-title">Название:</label>
+        <input type="text" id="broadcast-title" required>
+        <label for="broadcast-category">Выбор категории:</label>
+        <select id="broadcast-category">
+          <option value="talkshow">Ток-шоу</option>
+          <option value="valorant">Valorant</option>
+          <option value="genshin-impact">Genshin Impact</option>
+          <option value="honkai-star-rail">Honkai: Star Rail</option>
+          <option value="chitchat">ChitChat</option>
+          <option value="dead-by-daylight">Dead by Daylight</option>
+        </select>
+        <button type="button" id="broadcast-button">Применить настройки трансляции</button>
+      </form>
+      <button type="button" id="test-follower-button" class="test-button">Тестировать фолловера</button>
+      <button type="button" id="test-spell-button" class="test-button">Тестировать заклинание</button>
+    </div>
+    <div id="chat-form">
+      <h2 style="text-align: center;">Chat Log</h2>
+      <div id="chat-log"></div>
+      <form>
+        <input type="text" id="message-input" required>
+        <button type="button" id="send-button">Отправить</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Получаем необходимые элементы DOM
+    const chatLog = document.getElementById('chat-log');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const broadcastTitleInput = document.getElementById('broadcast-title');
+    const broadcastCategorySelect = document.getElementById('broadcast-category');
+    const broadcastButton = document.getElementById('broadcast-button');
+    const testFollowerButton = document.getElementById('test-follower-button');
+    const testSpellButton = document.getElementById('test-spell-button');
+
+    // Функция для добавления сообщения в чат-лог
+    function appendMessageToChatLog(message) {
+      const li = document.createElement('li');
+      li.textContent = message;
+      chatLog.appendChild(li);
+    }
+
+    // Обработчик входящего сообщения
+    function handleIncomingMessage(message) {
+      appendMessageToChatLog(`Сообщение: ${message}`);
+    }
+
+    // Обработчик события "новый фолловер"
+    function handleFollowerEvent(followerName) {
+      appendMessageToChatLog(`Новый фолловер: ${followerName}`);
+      appendMessageToChatLog(`Добро пожаловать, ${followerName}! Спасибо за подписку!`);
+      sendNotification(`Новый фолловер: ${followerName}`);
+    }
+
+    // Обработчик события "заклинание"
+    function handleSpellEvent(spellName) {
+      appendMessageToChatLog(`Произнесено заклинание: ${spellName}`);
+      sendNotification(`Произнесено заклинание: ${spellName}`);
+    }
+
+    // Функция для отправки сообщения
+    function sendMessage() {
+      const message = messageInput.value;
+      appendMessageToChatLog(`Я: ${message}`);
+      messageInput.value = '';
+      sendNotification(`Я: ${message}`);
+    }
+
+    // Функция для применения настроек трансляции
+    function applyBroadcastSettings() {
+      const broadcastTitle = broadcastTitleInput.value;
+      const broadcastCategory = broadcastCategorySelect.value;
+      appendMessageToChatLog(`Настройки трансляции применены: Название - ${broadcastTitle}, Категория - ${broadcastCategory}`);
+      sendNotification(`Настройки трансляции применены: Название - ${broadcastTitle}, Категория - ${broadcastCategory}`);
+    }
+
+    // Функция для отправки уведомления
+    function sendNotification(message) {
+      // Отправка уведомления на стрим с использованием API Trovo
+      // Здесь должна быть логика отправки уведомления через API Trovo
+      // Необходимо использовать соответствующий метод и параметры API Trovo
+    }
+
+    // Функция для инициализации API Trovo и установки обработчиков событий
+    function initializeTrovoAPI() {
+      // Инициализация API Trovo
+      // Здесь должна быть логика инициализации API Trovo
+
+      // Установка обработчиков событий
+
+      // Обработка входящего сообщения
+      handleIncomingMessage('Привет, я чат-бот!');
+      
+      // Обработка события "новый фолловер"
+      handleFollowerEvent('JohnDoe');
+
+      // Обработка события "заклинание"
+      handleSpellEvent('Fireball');
+    }
+
+    // Установка обработчиков событий
+
+    // Обработчик нажатия на кнопку "Отправить"
+    sendButton.addEventListener('click', sendMessage);
+
+    // Обработчик нажатия на кнопку "Применить настройки трансляции"
+    broadcastButton.addEventListener('click', applyBroadcastSettings);
+
+    // Обработчик нажатия на кнопку "Тестировать фолловера"
+    testFollowerButton.addEventListener('click', () => handleFollowerEvent('TestFollower'));
+
+    // Обработчик нажатия на кнопку "Тестировать заклинание"
+    testSpellButton.addEventListener('click', () => handleSpellEvent('TestSpell'));
+
+    // Инициализация API Trovo и установка обработчиков событий
+    initializeTrovoAPI();
+  </script>
+</body>
+</html>
